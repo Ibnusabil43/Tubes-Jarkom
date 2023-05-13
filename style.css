@@ -1,0 +1,71 @@
+@media (min-width: 1200px) {
+  .responsive-font-example {
+    font-size: 80px;
+  }
+}
+/* If the screen size is smaller than 1200px, set the font-size to 80px */
+@media (max-width: 1199.98px) {
+  .responsive-font-example {
+    font-size: 30px;
+  }
+}
+
+/* Jumbotron */
+#carousel {
+  padding-top: 0rem;
+  padding-left: 0%;
+  padding-right: 0%;
+}
+
+#carousel .c-item {
+  height: 1000px;
+}
+
+#carousel .c-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: brightness(40%);
+}
+
+/* Navbar */
+.navbar {
+  transition: all 0.2s;
+}
+
+.nav-color {
+  background-color: #131212;
+}
+
+/* open file */
+
+#open-file {
+  height: 1000px;
+}
+
+#open-file .card {
+  transition: all 0.3s;
+}
+
+#open-file .card:hover {
+  transform: scale(1.04);
+}
+
+/*nama kelompok*/
+#nama-kelompok {
+  height: 1000px;
+  background-color: black;
+}
+
+#nama-kelompok .img-thumbnail {
+  border-radius: 50%;
+}
+
+/* footer */
+footer {
+  background-color: #050505;
+  justify-content: center;
+}
+section {
+  padding-top: 7rem;
+}
