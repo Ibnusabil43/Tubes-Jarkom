@@ -16,7 +16,7 @@ def http_response(file):
     response = ''  # inisisasi response
 
     # mengambil filename dari request dengan metode split
-    filename = file.split()[1]
+    filename = file.split(' ')[1]
 
     # menentukan filepath dengan menggabungkan base directory dengan filename menggunakan metode join
     if filename == "/":  # Jika memasukkan url tanpa filename maka akan membuka file_html.html
@@ -41,12 +41,25 @@ def http_response(file):
     return response
 
 
-def connect_accept():
-    # Terima koneksi server
+# Buat TCP Scoket
+server_socket = socket(AF_INET, SOCK_STREAM)
+
+# bind alamat dan port tertentu
+server_socket.bind((HOST, PORT))
+
+# Tunggu Koneksi masuk
+server_socket.listen(2)
+
+# Pesan konfirmasi bahwa server telah berjalan
+print(f"Server berjalan di {HOST} port {PORT} (http://{HOST}:{PORT})......")
+
+# Perulangan agar web server dapat selalu melayani client
+while True:
+   # Terima koneksi server
     connnectionSocket, addr = server_socket.accept()
 
     # Baca data yang dikirimkan client (parsing)
-    file = connnectionSocket.recv(4096).decode()
+    file = connnectionSocket.recv(102400).decode()
 
     # memanggil fungsi http response untuk menampilkan http respons
     http_respons = http_response(file)
@@ -67,20 +80,3 @@ def connect_accept():
 
     # tutup koneksi
     connnectionSocket.close()
-
-
-# Buat TCP Scoket
-server_socket = socket(AF_INET, SOCK_STREAM)
-
-# bind alamat dan port tertentu
-server_socket.bind((HOST, PORT))
-
-# Tunggu Koneksi masuk
-server_socket.listen(2)
-
-# Pesan konfirmasi bahwa server telah berjalan
-print(f"Server berjalan di {HOST} port {PORT} (http://{HOST}:{PORT})......")
-
-# Perulangan agar web server dapat selalu melayani client
-while True:
-    connect_accept()
