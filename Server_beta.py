@@ -23,11 +23,18 @@ def http_response(file):
         filename = "/index.html"
     filepath = DIRECTORY + filename
     try:  # pengkondisian jika file ditemukan
+
+        # membuka file dengan metode read binary
         content = open(filepath, 'rb').read()
+
+        # Response message jika file ditemukan dan dapat dibuka
         response = f"HTTP/1.1 200 OK\r\nContent-Length: {len(content)}\r\n\r\n".encode(
             'utf-8')
         response += content
+
     except FileNotFoundError or IndexError:  # pengkondisian jika file tidak ditemukan
+
+        # Response message jika file tidak ditemukan atau file tidak dapat dibuka
         response = "HTTP/1.1 404 Not Found\r\nContent-Type: text/html; charset=utf-8\r\n\r\n".encode(
             'utf-8')
         response += "<h1>404 Not Found</h1>".encode('utf-8')
@@ -38,7 +45,7 @@ def connect_accept():
     # Terima koneksi server
     connnectionSocket, addr = server_socket.accept()
 
-    # Baca data yang dikirimkan client
+    # Baca data yang dikirimkan client (parsing)
     file = connnectionSocket.recv(4096).decode()
 
     # memanggil fungsi http response untuk menampilkan http respons
@@ -46,6 +53,8 @@ def connect_accept():
 
     # print method path dan protocol yang terdapat pada variabel request
     method, path, protocol = file.split('\n')[0].split()
+
+    # pesan konfirmasi bahwa file berhasil dibuka
     print("FILE BERHASIL DIBUKA !!")
     print('Method :', method)
     filepath = os.path.join(DIRECTORY, file.split()[1][1:])
@@ -53,8 +62,11 @@ def connect_accept():
     print('Path :', filepath)
     print('Protocol: ', protocol)
 
-    connnectionSocket.sendall(http_respons)  # kirim response ke client
-    connnectionSocket.close()  # tutup koneksi
+    # kirim response ke client
+    connnectionSocket.sendall(http_respons)
+
+    # tutup koneksi
+    connnectionSocket.close()
 
 
 # Buat TCP Scoket
@@ -69,8 +81,6 @@ server_socket.listen(2)
 # Pesan konfirmasi bahwa server telah berjalan
 print(f"Server berjalan di {HOST} port {PORT} (http://{HOST}:{PORT})......")
 
+# Perulangan agar web server dapat selalu melayani client
 while True:
-    try:
-        connect_accept()
-    except IndexError:
-        connect_accept()
+    connect_accept()
